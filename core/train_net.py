@@ -42,7 +42,7 @@ from detectron2.modeling import GeneralizedRCNNWithTTA
 #import custom_dataset generator
 import sys
 # insert at 1, 0 is the script path (or '' in REPL)
-sys.path.insert(1, '/home/appuser/beive/dataset')
+sys.path.insert(1, '/home/appuser/beyless_train_header/dataset')
 import register_custom_dataset as customDataset
 
 
@@ -139,7 +139,7 @@ def main(args):
     cfg = setup(args)
 
     # register custom dataset
-    customDataset.regist_beive_dataset(args.datapath)
+    customDataset.regist_custom_dataset(args.datapath)
 
     if args.eval_only:
         model = Trainer.build_model(cfg)

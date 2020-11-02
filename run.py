@@ -5,12 +5,12 @@ import subprocess
 import random
 
 parser = argparse.ArgumentParser(description='beyless detectron2 train/inference command generator')
-parser.add_argument('--datapath', type=str, default='/home/appuser/beive/dataset', help='dataset path')
+parser.add_argument('--datapath', type=str, default='/home/appuser/beyless_train_header/dataset', help='dataset path')
 parser.add_argument('--num_gpu', type=int, default=2, help='number of gpu')
-parser.add_argument('--config_root', type=str, default='/home/appuser/beive/configs', help='path to config file directory')
+parser.add_argument('--config_root', type=str, default='/home/appuser/beyless_train_header/configs', help='path to config file directory')
 parser.add_argument('--config_file', type=str, default='faster_rcnn_R_50_C4_1x.yaml', help='.yarm type config file')
 parser.add_argument('--batch_size', type=int, default=4, help='number of batch')
-parser.add_argument('--output_dir', type=str, default='/home/appuser/beive/results', help='result directory')
+parser.add_argument('--output_dir', type=str, default='/home/appuser/beyless_train_header/results', help='result directory')
 parser.add_argument('--train_dataset', type=str, default='"(\'beive_train\',)"', help='dataset path')
 parser.add_argument('--num_worker', type=int, default=16, help='dataset path')
 parser.add_argument('--num_class', type=int, default=15, help='dataset path')
@@ -54,7 +54,7 @@ def generate_command(args):
 
 
     command_prefix = "CUDA_VISIBLE_DEVICES={}".format(group[1:-1])
-    command_postfix = '--datapath {} --num-gpus {} --config-file {} --dist-url {} SOLVER.IMS_PER_BATCH {} OUTPUT_DIR {} DATASETS.TRAIN "(\'beive_train\',)" DATALOADER.NUM_WORKERS {} INPUT.CROP.SIZE "[1.0, 1.0]" MODEL.ROI_HEADS.NUM_CLASSES {} CUDNN_BENCHMARK True'.format(
+    command_postfix = '--datapath {} --num-gpus {} --config-file {} --dist-url {} SOLVER.IMS_PER_BATCH {} OUTPUT_DIR {} DATASETS.TRAIN "(\'custom_train\',)" DATALOADER.NUM_WORKERS {} INPUT.CROP.SIZE "[1.0, 1.0]" MODEL.ROI_HEADS.NUM_CLASSES {} CUDNN_BENCHMARK True'.format(
     args.datapath, args.num_gpu, config_file, dist_url, args.batch_size, output_dir, args.num_worker, args.num_class,
     )
 
