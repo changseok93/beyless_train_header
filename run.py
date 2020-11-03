@@ -3,6 +3,7 @@ import glob
 import time
 import subprocess
 import random
+import torch
 
 parser = argparse.ArgumentParser(description='beyless detectron2 train/inference command generator')
 parser.add_argument('--datapath', type=str, default='/home/appuser/beyless_train_header/dataset', help='dataset path')
@@ -19,7 +20,7 @@ args = parser.parse_args()
 
 def gpu_group_selector(num_gpu):
     # predefined variables
-    total_gpu = 8
+    total_gpu = int(torch.cuda.device_count())
 
     print('[please select gpu group]')
     num_menu = int(total_gpu / num_gpu)
