@@ -55,7 +55,7 @@ def generate_command(args):
 
 
     command_prefix = "CUDA_VISIBLE_DEVICES={}".format(group[1:-1])
-    command_postfix = '--datapath {} --num-gpus {} --config-file {} --dist-url {} SOLVER.IMS_PER_BATCH {} OUTPUT_DIR {} DATASETS.TRAIN "(\'custom_train\',)" DATALOADER.NUM_WORKERS {} INPUT.CROP.SIZE "[1.0, 1.0]" MODEL.ROI_HEADS.NUM_CLASSES {} CUDNN_BENCHMARK True'.format(
+    command_postfix = '--datapath {} --num-gpus {} --config-file {} --dist-url {} SOLVER.IMS_PER_BATCH {} OUTPUT_DIR {} DATASETS.TEST "(\'custom_val\', )" DATASETS.TRAIN "(\'custom_train\', )" DATALOADER.NUM_WORKERS {} INPUT.CROP.SIZE "[1.0, 1.0]" MODEL.ROI_HEADS.NUM_CLASSES {} CUDNN_BENCHMARK True'.format(
     args.datapath, args.num_gpu, config_file, dist_url, args.batch_size, output_dir, args.num_worker, args.num_class,
     )
 
