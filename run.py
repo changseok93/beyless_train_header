@@ -12,9 +12,10 @@ parser.add_argument('--config_root', type=str, default='/home/appuser/beyless_tr
 parser.add_argument('--config_file', type=str, default='faster_rcnn_R_50_C4_1x.yaml', help='.yarm type config file')
 parser.add_argument('--batch_size', type=int, default=4, help='number of batch')
 parser.add_argument('--output_dir', type=str, default='/home/appuser/beyless_train_header/results', help='result directory')
-parser.add_argument('--train_dataset', type=str, default='"(\'beive_train\',)"', help='dataset path')
-parser.add_argument('--num_worker', type=int, default=16, help='dataset path')
-parser.add_argument('--num_class', type=int, default=15, help='dataset path')
+parser.add_argument('--train_dataset', type=str, default='"(\'custom_train\',)"', help='train dataset')
+parser.add_argument('--test_dataset', type=str, default='"(\'custom_val\')"', help='test dataset')
+parser.add_argument('--num_worker', type=int, default=16, help='number of cpu threads')
+parser.add_argument('--num_class', type=int, default=15, help='number of classes in given dataset')
 args = parser.parse_args()
 
 
@@ -55,8 +56,28 @@ def generate_command(args):
 
 
     command_prefix = "CUDA_VISIBLE_DEVICES={}".format(group[1:-1])
-    command_postfix = '--datapath {} --num-gpus {} --config-file {} --dist-url {} SOLVER.IMS_PER_BATCH {} OUTPUT_DIR {} DATASETS.TEST "(\'custom_val\', )" DATASETS.TRAIN "(\'custom_train\', )" DATALOADER.NUM_WORKERS {} INPUT.CROP.SIZE "[1.0, 1.0]" MODEL.ROI_HEADS.NUM_CLASSES {} CUDNN_BENCHMARK True'.format(
-    args.datapath, args.num_gpu, config_file, dist_url, args.batch_size, output_dir, args.num_worker, args.num_class,
+    command_postfix = '--datapath {} \
+            --num-gpus {} \
+            --config-file {} \
+            --dist-url {} \
+            SOLVER.IMS_PER_BATCH {} \
+            OUTPUT_DIR {} \
+            DATASETS.TEST {} \
+            DATASETS.TRAIN {} \
+            DATALOADER.NUM_WORKERS {} \
+            INPUT.CROP.SIZE "[1.0, 1.0]" \
+            MODEL.ROI_HEADS.NUM_CLASSES {} \
+            CUDNN_BENCHMARK True'.format(
+                    args.datapath, 
+                    args.num_gpu, 
+                    config_file, 
+                    dist_url, 
+                    args.batch_size, 
+                    output_dir, 
+                    args.test_dataset, 
+                    args.train_dataset, 
+                    args.num_worker, 
+                    args.num_class,
     )
 
     command = '{} python3 ./core/train_net.py {}'.format(command_prefix, command_postfix)
